@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+// user ragistration
+Route::post('/userRegister', [UserController::class, 'userRegister']);s
