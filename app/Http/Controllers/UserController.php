@@ -39,6 +39,7 @@ class UserController extends Controller
 
 
 
+
     function userLogin(Request $request){
         $count = User::where("email","=",$request->email)
         ->where("password","=",$request->password)-> count();
@@ -107,6 +108,14 @@ class UserController extends Controller
         $count = User::where('email',"=", $email)->where('otp',"=", $otp)->count();
 
         if ($count == 1) {
+
+            User::where('email','=', $email)->update(['otp' => '0']);
+            $token = JWTToken::generateTokenForOTP($email);
+
+            return response()->json([
+                'status' => "success",
+                'message' => "OTP Verified Successfully",
+                'token' => $token,],200);
             
         }
         else{
@@ -115,6 +124,28 @@ class UserController extends Controller
                 'message' => "OTP does not match"
             ], 400);
         }
+    }
+
+
+    //password reset
+    function resetPassword(Request $request){
+        
+        try{
+        $email = $request->header('email');
+        $password = $request->input('password');
+        User::where('email',"=", $email)->update(['password' => $password]);
+        return response()->json([
+            'status' => "success",
+            'message' => "Password Reset Successfully",
+            
+        ],200);
+    }
+    catch(\Exception $e){
+        return response()->json([
+            'status' => "error",
+            'message' => "Password cannot be Reset",
+        ],400);
+    }
     }
 
 

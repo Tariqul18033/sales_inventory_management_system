@@ -8,13 +8,13 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{ url("/")}}/user-rsegister" method="post">
+    <form action="{{ url("/")}}/verify-otp" method="post">
         @csrf
-        firstname<input type="text" name="firstName"><br>
-        lastname<input type="text" name="lastName"><br>
+        {{-- firstname<input type="text" name="firstName"><br>
+        lastname<input type="text" name="lastName"><br> --}}
         email<input type="text" name="email"><br>
-       mobile<input type="number" name="mobile"><br>
-        passwoard<input type="text" name="password">
+       {{-- mobile<input type="number" name="mobile"><br> --}}
+        otp<input type="number" name="otp">
         <button type="submit">Submit</button>
     </form>
 
