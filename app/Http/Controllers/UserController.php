@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Helper\JWTToken;
+use App\Mail\OTPMail;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -61,7 +63,39 @@ class UserController extends Controller
         
     }
 
-  
+
+
+    //otpmail handling
+    function otpmail(Request $request){
+
+
+
+        $email = $request->input('email');
+        $otp = rand(1000,9999);
+
+        $count = User::where('email',"=", $email)->count();
+
+        if ($count == 1) {
+
+            Mail::to($email)->send(new OTPMail($otp));
+            User::where('email', $email)->update(['otp' => $otp]);
+
+
+
+        }
+        else{
+            return response()->json([
+                'status' => "error",
+                'message' => "User does not exist",
+            
+            ],400);
+        }
+    }
+
+
+
+
+
 }
 
 
