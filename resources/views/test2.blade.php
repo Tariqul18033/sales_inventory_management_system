@@ -8,10 +8,10 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="{{ url("/")}}/user-login" method="post">
+    <form action="{{ url("/")}}/send-otp" method="post">
         @csrf
         email<input type="text" name="email"><br>
-        passwoard<input type="text" name="password">
+        {{-- passwoard<input type="text" name="password"> --}}
         <button type="submit">Submit</button>
     </form>
 

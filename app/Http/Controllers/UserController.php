@@ -66,7 +66,7 @@ class UserController extends Controller
 
 
     //otpmail handling
-    function otpmail(Request $request){
+    function sendOTPCode(Request $request){
 
 
 
@@ -80,6 +80,12 @@ class UserController extends Controller
             Mail::to($email)->send(new OTPMail($otp));
             User::where('email', $email)->update(['otp' => $otp]);
 
+            return response()->json([
+                'status' => "success",
+                'message' => "OTP Sent Successfully",
+                
+            ]);
+
 
 
         }
@@ -89,6 +95,25 @@ class UserController extends Controller
                 'message' => "User does not exist",
             
             ],400);
+        }
+    }
+
+    function verifyOTP(Request $request){
+        
+
+        $email = $request->input('email');
+        $otp = $request->input('otp');
+
+        $count = User::where('email',"=", $email)->where('otp',"=", $otp)->count();
+
+        if ($count == 1) {
+            
+        }
+        else{
+            return response()->json([
+                'status' => "error",
+                'message' => "OTP does not match"
+            ], 400);
         }
     }
 
