@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Middleware\TokenVerificationMiddware;
+use App\Http\Middleware\TokenVerificationMiddleware;
+use App\Http\Controllers\DashboardController;
 
 // frontend routes
 
@@ -25,9 +26,15 @@ Route::get('/reportPage',[ReportController::class,'ReportPage'])->middleware([To
 
 
 
-Route::post('/user-register', [UserController::class, 'userRegister']);
-Route::post('/user-login', [UserController::class, 'userLogin']);
-Route::post('/send-otp', [UserController::class, 'sendOTPCode']);
-Route::post('/verify-otp', [UserController::class, 'verifyOTP']);
-Route::post('/reset-password', [UserController::class, 'resetPassword'])
-->middleware(TokenVerificationMiddware::class);
+
+
+Route::post('/user-register', [UserController::class, 'UserRegister']);
+Route::post('/user-login', [UserController::class, 'UserLogin']);
+Route::post('/send-otp', [UserController::class, 'SendOTPCode']);
+Route::post('/verify-otp', [UserController::class, 'VerifyOTP']);
+Route::post('/reset-password', [UserController::class, 'ResetPassword'])
+->middleware(TokenVerificationMiddleware::class);
+->middleware([TokenVerificationMiddleware::class]);
+
+// user logout
+Route::get('/logout', [UserController::class, 'UserLogout']);

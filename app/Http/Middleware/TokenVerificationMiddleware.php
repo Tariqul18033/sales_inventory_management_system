@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Helper\JWTToken;
 
-class TokenVerificationMiddware
+class TokenVerificationMiddleware
 {
     /**
      * Handle an incoming request.
@@ -17,19 +17,15 @@ class TokenVerificationMiddware
     public function handle(Request $request, Closure $next): Response
     {
 
-        $token = $request->header('token');
+        $token = $request->cookie('token');
         $result = JWTToken::verifyToken($token);
 
         if($result == 'unauthorized' ){
            
-            return response()->json([
-                'status' => "error",
-                'message' => "Unauthorized",
-
-            ], 401);
+            return redirect("/userLogin");
         }
         else{
-            $request->headers->set('email', $result);
+            $request->headers->set('email', $result->userEmail);
         return $next($request);
         }
         
