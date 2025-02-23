@@ -1,15 +1,16 @@
 <?php
-
 namespace App\Http\Controllers;
-use App\Models\User;
-use Illuminate\Http\Request;
 use App\Helper\JWTToken;
 use App\Mail\OTPMail;
-use Illuminate\View\View;
+use App\Models\User;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
+
     function LoginPage():View{
         return view('pages.auth.login-page');
     }
@@ -48,7 +49,7 @@ class UserController extends Controller
                 'message' => 'User Registration Successfully'
             ],200);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status' => 'failed',
                 'message' => 'User Registration Failed'
@@ -141,7 +142,7 @@ class UserController extends Controller
                 'message' => 'Request Successful',
             ],200);
 
-        }catch (\Exception $exception){
+        }catch (Exception $exception){
             return response()->json([
                 'status' => 'fail',
                 'message' => 'Something Went Wrong',
@@ -182,7 +183,7 @@ class UserController extends Controller
                 'message' => 'Request Successful',
             ],200);
 
-        }catch (\Exception $exception){
+        }catch (Exception $exception){
             return response()->json([
                 'status' => 'fail',
                 'message' => 'Something Went Wrong',
